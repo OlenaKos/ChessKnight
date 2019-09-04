@@ -85,7 +85,7 @@ namespace HorsePower
         static int[] ktmove1 = { -2, -1, 1, 2, 2, 1, -1, -2 };
         static int[] ktmove2 = { 1, 2, 2, 1, -1, -2, -2, -1 };
 
-        static int i = 0, j = 0, move_num = 0;
+        static int i = 0, j = 0, g = 0, h = 0, move_num = 1;
 
 
         static void Main(string[] args)
@@ -96,8 +96,10 @@ namespace HorsePower
             }
             Console.WriteLine("Please enter a first x position");
             i = Int32.Parse(Console.ReadLine()) - 1;
+            g = i;
             Console.WriteLine("Please enter a first y position");
             j = Int32.Parse(Console.ReadLine()) - 1;
+            h = j;
             addKnight();
         }
 
@@ -117,7 +119,8 @@ namespace HorsePower
                 // if all possible moves are done print them
                 if (move_num >= 64)
                 {
-                    writeBoardReDraw();
+                    writeBoardExt();
+                    //writeBoardReDraw();
                     Console.ReadLine();
                     System.Environment.Exit(1);
                 }
@@ -168,6 +171,7 @@ namespace HorsePower
                 for (int n = 0; n < deskSize; n++)
                 {
                     Thread.Sleep(1000);
+                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.Clear();
                     addNewStepToArray(step, arrDeskTemp, arrDesk);
                     step++;
@@ -183,6 +187,10 @@ namespace HorsePower
                 for (int j = 0; j < deskSize; j++)
                 {
                     arrDeskTemp[i][j] = 0;
+                    if (i == g && j == h)
+                    {
+                        arrDeskTemp[i][j] = 1;
+                    }
                 }
             }
         }
@@ -207,50 +215,50 @@ namespace HorsePower
         }
 
         private static void PrintTempArray(int[][] arrDeskTemp)
-    {
-            
-        string s;
-        for (int i = 0; i < 8; i++)
         {
-            for (int j = 0; j < 8; j++)
+
+            string s;
+            for (int i = 0; i < 8; i++)
             {
-                    
+                for (int j = 0; j < 8; j++)
+                {
+
                     if (i % 2 == 0)
-                {
-                    if (j % 2 == 0)
                     {
-                        Console.BackgroundColor = ConsoleColor.White;
+                        if (j % 2 == 0)
+                        {
+                            Console.BackgroundColor = ConsoleColor.White;
 
-                        s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
-                        Console.Write("{0}", s);
+                            s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
+                            Console.Write("{0}", s);
+                        }
+                        else
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkRed;
+                            s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
+                            Console.Write("{0}", s);
+                        }
                     }
                     else
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkRed;
-                        s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
-                        Console.Write("{0}", s);
-                    }
-                }
-                else
-                {
-                    if (j % 2 != 0)
-                    {
-                        Console.BackgroundColor = ConsoleColor.White;
-                        s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
-                        Console.Write("{0}", s);
+                        if (j % 2 != 0)
+                        {
+                            Console.BackgroundColor = ConsoleColor.White;
+                            s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
+                            Console.Write("{0}", s);
 
-                    }
-                    else
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkRed;
-                        s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
-                        Console.Write("{0}", s);
+                        }
+                        else
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkRed;
+                            s = String.Format("{0,2}", arrDeskTemp[i][j]) + " ";
+                            Console.Write("{0}", s);
+                        }
                     }
                 }
-            }
                 Console.WriteLine();
+            }
         }
-    }
 
         private static void writeBoardExt()
         {
@@ -264,7 +272,7 @@ namespace HorsePower
                         if (j % 2 == 0)
                         {
                             Console.BackgroundColor = ConsoleColor.White;
-                            
+
                             s = String.Format("{0,2}", arrDesk[i][j]) + " ";
                             Console.Write("{0}", s);
                         }
